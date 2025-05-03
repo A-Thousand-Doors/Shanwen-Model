@@ -6,7 +6,7 @@ set -x
 EXPERIMENT_NAME=${EXPERIMENT_NAME:-"CoT"}  # Experiment name, e.g., "CoT", "WHWM"
 DATASET_NAME=${DATASET_NAME:-"gsm8k"}  # Dataset name, e.g., "gsm8k", "aqua", "math"
 MODEL_PATH=${MODEL_PATH:-"Qwen/Qwen2.5-7B-Instruct"}
-SAVE_CHECKPOINT_PATH=${SAVE_CHECKPOINT_PATH:-"/models/${EXPERIMENT_NAME}_${DATASET_NAME}_$(basename ${MODEL_PATH})"}
+SAVE_CHECKPOINT_PATH=${SAVE_CHECKPOINT_PATH:-"/models/shanwen/${EXPERIMENT_NAME}_${DATASET_NAME}_$(basename ${MODEL_PATH})"}
 
 
 # 1. Prepare the dataset
@@ -54,6 +54,6 @@ python3 -m src.train \
     trainer.n_gpus_per_node=8 \
     trainer.nnodes=1 \
     trainer.save_freq=30 \
-    trainer.test_freq=1 \
+    trainer.test_freq=30 \
     trainer.default_local_dir=${SAVE_CHECKPOINT_PATH} \
     trainer.total_epochs=3 $@
