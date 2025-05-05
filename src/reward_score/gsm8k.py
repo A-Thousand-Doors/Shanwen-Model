@@ -99,3 +99,7 @@ def compute_WHWM_score(data_source, solution_str, ground_truth, extra_info=None)
     answer_score = compute_score_answer(solution_str, ground_truth, match_score=2.0)
 
     return format_score + answer_score
+
+
+def compute_WHWM_NO_THINK_score(data_source, solution_str, ground_truth, extra_info=None):
+    return compute_WHWM_score(data_source, solution_str, ground_truth, extra_info)
