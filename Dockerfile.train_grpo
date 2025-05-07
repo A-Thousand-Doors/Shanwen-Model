@@ -27,4 +27,4 @@ RUN pip install -e .[vllm]
 WORKDIR /workspace
 COPY . .
 
-CMD ["bash", "train.sh"]
+CMD ["bash", "train_grpo.sh"]

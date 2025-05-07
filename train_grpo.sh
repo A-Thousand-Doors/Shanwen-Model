@@ -19,7 +19,7 @@ python3 -m src.data_preprocess.${DATASET_NAME}.${EXPERIMENT_NAME} --local_dir ./
 
 # 2. Perform the training
 export VERL_USE_MODELSCOPE=True
-python3 -m src.train \
+python3 -m src.train_grpo \
     algorithm.adv_estimator=grpo \
     algorithm.use_kl_in_reward=False \
     data.train_files=$train_file \

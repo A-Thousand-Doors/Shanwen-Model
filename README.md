@@ -1,0 +1,11 @@
+### Changelog
+- v1.0.0
+    - Initial the training script
+- v1.0.1
+    - Fixed a bug in the training script that caused the script exit with error
+- v1.1.0
+    - Add WHWM experiment
+- v1.1.1
+    - Update the default training parameters
+- v1.1.2
+    - Add WHWM_NO_THINK experiment for QWen3 models
