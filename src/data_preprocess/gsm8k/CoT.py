@@ -52,6 +52,7 @@ The assistant first thinks about the reasoning process in the mind and then prov
 with the answer. The reasoning process and answer are enclosed within <think> </think> and
 <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think>
 <answer> answer here </answer>.
+The answer should be a number without any other characters.
 """
 
     # add a row to each data item that represents a unique id
