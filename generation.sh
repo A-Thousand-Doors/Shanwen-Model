@@ -6,6 +6,7 @@ set -x
 EXPERIMENT_NAME=${EXPERIMENT_NAME:-"CoT"}  # Experiment name, e.g., "CoT", "WHWM"
 DATASET_NAME=${DATASET_NAME:-"gsm8k"}  # Dataset name, e.g., "gsm8k", "aqua", "math"
 MODEL_PATH=${MODEL_PATH:-"Qwen/Qwen2.5-7B-Instruct"}
+FSDP_CHECKPOINT_PATH=${FSDP_CHECKPOINT_PATH:-""}  # Optional FSDP checkpoint path
 OUTPUT_DIR=${OUTPUT_PATH:-"/datasets/shanwen/${EXPERIMENT_NAME}/${DATASET_NAME}/$(basename ${MODEL_PATH})/"}
 OUTPUT_FILENAME=${OUTPUT_FILENAME:-"test.parquet"}
 OUTPUT_PATH=${OUTPUT_PATH:-"${OUTPUT_DIR}/${OUTPUT_FILENAME}"}
@@ -18,7 +19,24 @@ val_file="./data/${DATASET_NAME}/test.parquet"
 python3 -m src.data_preprocess.${DATASET_NAME}.${EXPERIMENT_NAME} --local_dir ./data/${DATASET_NAME}
 
 
-# 2. Perform the generation
+# 2. Convert the FSDP checkpoint to HF checkpoint
+if [ -n "$FSDP_CHECKPOINT_PATH" ]; then
+    converted_model_path="$(dirname ${FSDP_CHECKPOINT_PATH})/hf_model"
+    if [[ -d "$converted_model_path" ]]; then
+        echo "Converted model already exists at $converted_model_path"
+    else
+        echo "Converting FSDP checkpoint to HF checkpoint..."
+        python3 -m src.convert_fsdp_to_hf \
+            --fsdp_checkpoint_path $FSDP_CHECKPOINT_PATH \
+            --hf_model_path $MODEL_PATH \
+            --output_path $converted_model_path
+        echo "Converted model saved at $converted_model_path"
+    fi
+    MODEL_PATH=$converted_model_path
+fi
+
+
+# 3. Perform the generation
 export VERL_USE_MODELSCOPE=True
 python3 -m src.generation \
     trainer.nnodes=1 \
@@ -38,5 +56,5 @@ python3 -m src.generation \
     rollout.gpu_memory_utilization=0.8 $@
 
 
-# 3. Evaluate the generation
+# 4. Evaluate the generation
 python3 -m src.eval.${DATASET_NAME} --data_path $OUTPUT_PATH
