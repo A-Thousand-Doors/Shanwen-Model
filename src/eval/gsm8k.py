@@ -33,9 +33,11 @@ if __name__ == "__main__":
     correct = 0
 
     for _, row in dataset.iterrows():
-        answer = extract_solution(row["responses"])
         gt = row["reward_model"]["ground_truth"]
-        if answer == gt:
-            correct += 1
-    
+        for response in row["responses"]:
+            answer = extract_solution(response)
+            if answer == gt:
+                correct += 1
+                break  # Only count the first correct answer
+
     print(f"Total: {total}, Correct: {correct}, Accuracy: {correct / total:.4%}")
