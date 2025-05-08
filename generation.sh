@@ -6,7 +6,9 @@ set -x
 EXPERIMENT_NAME=${EXPERIMENT_NAME:-"CoT"}  # Experiment name, e.g., "CoT", "WHWM"
 DATASET_NAME=${DATASET_NAME:-"gsm8k"}  # Dataset name, e.g., "gsm8k", "aqua", "math"
 MODEL_PATH=${MODEL_PATH:-"Qwen/Qwen2.5-7B-Instruct"}
-OUTPUT_PATH=${OUTPUT_PATH:-"/datasets/shanwen/${EXPERIMENT_NAME}/${DATASET_NAME}/$(basename ${MODEL_PATH})/test.parquet"}
+OUTPUT_DIR=${OUTPUT_PATH:-"/datasets/shanwen/${EXPERIMENT_NAME}/${DATASET_NAME}/$(basename ${MODEL_PATH})/"}
+OUTPUT_FILENAME=${OUTPUT_FILENAME:-"test.parquet"}
+OUTPUT_PATH=${OUTPUT_PATH:-"${OUTPUT_DIR}/${OUTPUT_FILENAME}"}
 
 
 # 1. Prepare the dataset
@@ -34,3 +36,7 @@ python3 -m src.generation \
     rollout.response_length=4096 \
     rollout.tensor_model_parallel_size=1 \
     rollout.gpu_memory_utilization=0.8 $@
+
+
+# 3. Evaluate the generation
+python3 -m src.eval.${DATASET_NAME} --data_path $OUTPUT_PATH
