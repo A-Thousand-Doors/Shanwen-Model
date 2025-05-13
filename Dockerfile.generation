@@ -6,7 +6,7 @@ FROM nvidia/cuda:12.4.0-devel-ubuntu22.04
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3.10 python3.10-venv python3.10-dev python3-pip \
-    build-essential curl git git-lfs \
+    build-essential curl git git-lfs vim \
     && ln -s /usr/bin/python3.10 /usr/bin/python \
     && git lfs install \
     && rm -rf /var/lib/apt/lists/*

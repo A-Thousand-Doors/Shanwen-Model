@@ -23,8 +23,6 @@ WORKDIR /workspace
 RUN git clone https://github.com/volcengine/verl.git
 WORKDIR /workspace/verl
 RUN pip install -e .[vllm]
-
 WORKDIR /workspace
-COPY . .
 
-CMD ["bash", "train_grpo.sh"]
+CMD ["bash"]

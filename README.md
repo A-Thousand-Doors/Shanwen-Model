@@ -9,3 +9,5 @@
     - Update the default training parameters
 - v1.1.2
     - Add WHWM_NO_THINK experiment for QWen3 models
+- v1.2.0
+    - Update WHWM_NO_THINK prompt to v2
