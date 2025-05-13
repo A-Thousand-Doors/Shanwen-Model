@@ -11,3 +11,5 @@
     - Add WHWM_NO_THINK experiment for QWen3 models
 - v1.2.0
     - Update WHWM_NO_THINK prompt to v2
+- v1.2.1
+    - Update default GRPO trainner config
