@@ -72,16 +72,27 @@ def compute_score_WHWM_format(solution_str, match_score=1.0):
     Returns:
         float: The computed format score.
     """
-    format_match = re.search(
-        r'<what>.*?</what>\s*'
-        r'<how>.*?</how>\s*'
-        r'<why>.*?</why>\s*'
-        r'<meaningful>.*?</meaningful>\s*'
-        r'<answer>.*?</answer>\s*',
-        solution_str,
-        re.DOTALL
-    )
-    return match_score if format_match else 0.0
+    score = 0.0
+
+    # 检查是否包含 <think>...</think> 后跟 <answer>...</answer>
+    if re.search(r"<think>.*?</think>\s*<answer>.*?</answer>", solution_str, re.DOTALL):
+        score += 0.2
+
+    # 提取 <think>...</think> 的内容
+    think_match = re.search(r"<think>(.*?)</think>", solution_str, re.DOTALL)
+    if think_match:
+        think_content = think_match.group(1)
+
+        if re.search(r"<what>.*?</what>", think_content, re.DOTALL):
+            score += 0.2
+        if re.search(r"<how>.*?</how>", think_content, re.DOTALL):
+            score += 0.2
+        if re.search(r"<why>.*?</why>", think_content, re.DOTALL):
+            score += 0.2
+        if re.search(r"<meaningful>.*?</meaningful>", think_content, re.DOTALL):
+            score += 0.2
+
+    return score * match_score
 
 
 def compute_WHWM_score(data_source, solution_str, ground_truth, extra_info=None):

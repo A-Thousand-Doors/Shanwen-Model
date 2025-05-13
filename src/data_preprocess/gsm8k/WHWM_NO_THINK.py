@@ -47,28 +47,15 @@ if __name__ == "__main__":
     test_dataset = dataset["test"]
 
     instruction_following = """
-First think of the following 4 sub-questions and then answer the original question.
-1. What: what are the known and unknown objects in the question? What are the relationships between these objects?
-2. How: how can we use these objects and relationships to solve the question?
-3. Why: why can we solve the question in this way?
-4. Meaningful: verify if the question has been solved correctly by the solution.
-
-Respond in the following format:
-<what>
-...
-</what>
-<how>
-...
-</how>
-<why>
-...
-</why>
-<meaningful>
-...
-</meaningful>
-<answer>
-...
-</answer>
+Answer the given question.
+You must conduct reasoning inside <think> and </think> each time you process new information.
+During reasoning, you must think through the following sub-questions, in any order and as many times as needed. Each time you consider one, wrap your reasoning using the appropriate tag:
+- Use <what> and </what> to describe what are the known and unknown objects in the question, and the relationships between them.
+- Use <how> and </how> to explain how these objects and relationships can be used to solve the question.
+- Use <why> and </why> to justify why this solution method is valid.
+- Use <meaningful> and </meaningful> to verify whether the solution correctly and meaningfully solves the question.
+You may revisit any sub-question multiple times and in any order inside <think> and </think>.
+Once you are confident that the question is correctly solved, provide the answer inside <answer> and </answer>, without detailed illustrations
 """
 
     # add a row to each data item that represents a unique id
